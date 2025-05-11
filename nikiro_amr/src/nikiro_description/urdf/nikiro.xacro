@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<robot name="nikiro" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find nikiro_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find nikiro_description)/urdf/nikiro.trans" />
+<xacro:include filename="$(find nikiro_description)/urdf/nikiro.gazebo" />
+  <link name="base_footprint"/>
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.022071318684179705 0.006141506519807233 0.1087701400092451" rpy="0 0 0"/>
+    <mass value="38.26171992112548"/>
+    <inertia ixx="0.817634" iyy="1.899985" izz="2.269713" ixy="0.001467" iyz="1e-05" ixz="0.027681"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="left_wheel">
+  <inertial>
+    <origin xyz="2.1359294439561582e-07 0.01999977099653047 1.3877787807814457e-17" rpy="0 0 0"/>
+    <mass value="2.466150233067987"/>
+    <inertia ixx="0.00187" iyy="0.003083" izz="0.00187" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.006289 -0.141289 -0.0505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/left_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.006289 -0.141289 -0.0505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/left_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="right_wheel">
+  <inertial>
+    <origin xyz="2.1359293878725483e-07 -0.02000021359297019 3.0531133177191805e-16" rpy="0 0 0"/>
+    <mass value="2.4661502330679874"/>
+    <inertia ixx="0.00187" iyy="0.003083" izz="0.00187" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.006289 0.128711 -0.0505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/right_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.006289 0.128711 -0.0505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/right_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="laser">
+  <inertial>
+    <origin xyz="2.220446049250313e-16 2.5216220942748686e-08 0.0050000000000000044" rpy="0 0 0"/>
+    <mass value="0.2215627689964292"/>
+    <inertia ixx="5.2e-05" iyy="5.2e-05" izz="0.0001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.2825 0.000404 -0.1295" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/laser.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.2825 0.000404 -0.1295" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find nikiro_description)/meshes/laser.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="imu_link">
+  <visual>
+    <geometry>
+      <box size="0.02 0.02 0.02"/>
+    </geometry>
+  </visual>
+</link>
+
+<joint name="left_wheel_joint" type="continuous">
+  <origin xyz="-0.006289 0.141289 0.0505" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="left_wheel"/>
+  <axis xyz="0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="right_wheel_joint" type="continuous">
+  <origin xyz="-0.006289 -0.128711 0.0505" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="right_wheel"/>
+  <axis xyz="0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="lidar_joint" type="fixed">
+  <origin xyz="0.2825 -0.000404 0.1295" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="laser"/>
+</joint>
+
+<joint name="base_footprint_to_base_link" type="fixed">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+</joint>
+
+<joint name="imu_joint" type="fixed">
+  <origin xyz="0 0 0.03" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="imu_link"/>
+</joint>
+
+</robot>
