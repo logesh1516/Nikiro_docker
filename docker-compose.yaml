@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  bringup:
+    image: nikiro_amr:latest
+    command: bash -c "source /opt/ros/humble/setup.bash && \
+                  source /home/ubuntu/nikiro_amr/install/setup.bash && \
+                  source /home/ubuntu/micro_ros/install/local_setup.bash && \
+                  export LINOROBOT2_LASER_SENSOR=ydlidar && \
+                  ros2 launch nikiro_amr_bringup bringup.launch.py"
+
+    tty: true
+    privileged: true
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "/dev/ttyUSB0:/dev/ttyACM0"      
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    depends_on:
+      - server
+  navigation:
+    image: nikiro_amr:latest
+    command: bash -c "source /opt/ros/humble/setup.bash && \
+                      source /home/ubuntu/nikiro_amr/install/setup.bash && \
+                      ros2 launch nikiro_amr_navigation navigation.launch.py rviz:=true"
+    tty: true
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    depends_on:
+      - server
+
+  server:
+    image: nikiro_amr:latest
+    command: bash -c "source /opt/ros/humble/setup.bash && \
+                      ros2 launch rosbridge_server rosbridge_websocket_launch.xml"
+    tty: true
+    privileged: true
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host
+
