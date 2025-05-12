@@ -23,8 +23,8 @@ from launch_ros.actions import Node, SetRemap
 
 
 def generate_launch_description():
-    laser_sensor_name = os.getenv('LINOROBOT2_LASER_SENSOR', '')
-    depth_sensor_name = os.getenv('LINOROBOT2_DEPTH_SENSOR', '')
+    laser_sensor_name = os.getenv('NIKIRO_LASER_SENSOR', '')
+    depth_sensor_name = os.getenv('NIKIRO_DEPTH_SENSOR', '')
     
     fake_laser_config_path = PathJoinSubstitution(
         [FindPackageShare('nikiro_amr_bringup'), 'config', 'fake_laser.yaml']
