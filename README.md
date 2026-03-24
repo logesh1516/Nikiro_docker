@@ -143,7 +143,7 @@ The full Nikiro simulation (SLAM, conveyor, MyCobot arm) lives here:
 
 <div align="center">
 
-Built with 🐳 + 🤖 by **Logesh**  
+Built with 🐳 + 🤖 by **Logesh S (Loki)**  
 *Because setting up ROS 2 from scratch should be a choice, not a requirement.*
 
 </div>
